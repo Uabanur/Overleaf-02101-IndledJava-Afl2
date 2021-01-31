@@ -1,0 +1,27 @@
+\section*{2.2 ImageAnalysis}
+
+%ImageAnalysis program takes an image (filename) as a parameter, and creates a matrix with each element containing the respective pixel through the programs constructor. The program contains a method called
+
+When a new instance of the class \texttt{ImageAnalysis} is constructed using an image filename as parameter, it creates a matrix (or rather, array of arrays) of elements with values in the interval [$-$1,1]. The elements of the matrix correspond to the pixels of the image. The class contains a method called \texttt{runFilter}: 
+
+\begin{lstlisting}
+public double[][] runFilter(String filterfilename) throws FileNotFoundException
+\end{lstlisting}
+
+\texttt{runFilter} applies a specified filter (as long as the file path is legal) and returns a filtered image. Since the filter uses calculations based on the values of the surrounding elements, the filtered image is generally smaller than the original image. The size of the filter determines how much smaller the filtered image is. (Special case: for $k=0$, the filtered image is the same size.)\\
+%If the filters range does not not surpass the element in focus, the filtered image is the same size, as the surrounded elements are not used. \\
+\\
+The original image and the filtered image are both corrected for errors when scanned; Since the program only works with the gray scale ranging from $-1$ (black) to $1$ (white), all element values outside this range are mapped mapped to either $-1$ or $1$. This is done by a method called \texttt{sanitize}: 
+
+\begin{lstlisting}
+private double sanitize(double pixel){
+	if(pixel > 1)
+		return 1;
+	else if(pixel < -1)
+		return -1;
+	else 
+		return pixel;
+}
+\end{lstlisting}
+
+The filter itself is not sanitized; if the user applies a filter that scales all image pixel values by a factor 2, this is allowed (provided, of course, that the filtered image values FIm are within the interval [-1, 1]).

@@ -1,0 +1,45 @@
+\section*{2.1 TextAnalysis16}
+
+We implemented the text analysis program in the class \textt{TextAnalysis16}. The class contains the required methods. The method names and arguments are exactly as requested:
+
+\begin{lstlisting}
+public int wordCount() // returns number of words in the text file
+public int frequency(String word) // returns number of occurrences of a specified word in the text file. 
+public boolean contains(String word1 , String word2) //
+// if word1 is directly followed by word2 in the text, returns true.
+\end{lstlisting}
+
+The method \texttt{frequency} is case sensitive. The method \texttt{contains} is case insensitive. By "directly followed", we mean that there is no word between \texttt{word1} and \texttt{word2}. Punctuation marks, Arabic numerals etc. are allowed.\\
+
+\textbf{How we scanned the text}\\
+We did not use the parameter \texttt{maxNoOfWords} in our program.  Instead we used the end-of-file delimeter \texttt{\textbackslash \textbackslash Z} in a Scanner, stored the entire text in a string, and tokenized this large string. We split the string  at every non-letter by using wildcards: \texttt{[\textasciicircum a-zA-Z]} means "split if you encounter a character that is not a through z or A through Z". The plus means "if more than one non-letter occurs, consider it one split". Scanning happens inside a \texttt{try-catch} block:
+
+\begin{lstlisting}
+Scanner s;
+try {
+  s = new Scanner(new File(fileName)).useDelimiter("\\Z");
+  String txtFull = s.next();
+  this.tokens = txtFull.split("[^a-zA-Z]+");
+  ...
+\end{lstlisting}
+
+\textbf{Fields}\\
+The class contains three private fields: a string with the filename, a string array \texttt{tokens} containing the words, and a \texttt{wordCounter} that is just the integer \texttt{tokens.length}. We chose private fields to encapsulate them. The field values are only changed in the constructor.\\
+\\
+\textbf{The method} \texttt{wordcount}\\
+ The method \texttt{wordcount} returns \texttt{wordCounter}.\\
+
+\textbf{The method} \texttt{frequency}\\
+This method loops through the String array \texttt{tokens}, increments a counter \texttt{freqCounter} if it encounters the specified word, and returns the counter.\\
+
+\textbf{The method} \texttt{contains}\\
+This method loops through the String array \texttt{tokens}, and compares the i'th element with the subsequent element. We used the method \texttt{equalsIgnoreCase} from the String class since this method is case insensitive. \\
+
+\textbf{How we stored the text: further details}\\
+When loading the text from \texttt{fileName}, we chose to store the complete text in a single string, sacrificing memory for speed and redundancy. This simplifies the code for all methods. We tried several alternatives: Scanning line by line, and scanning word by word. When scanning line by line, we have to keep track of the last word in each line when running the \texttt{contains} method. When scanning line by line or word by word, we have to keep track of the last scanned word to (to compensate for e.g. line wrap). This is avoided by scanning the entire text, and using the end-of-input delimeter.\\
+\\
+The drawback of saving the entire text in a single string (and afterwards a string array), is memory usage. If the text being analyzed requires more memory to store than is available in the stack, a stack overflow occurs. However, the implementation with the end-of-line delimeter was by far the fastest in terms of runtime in  CodeJudge.
+
+%As long as no stack overflow happens, the number of words \texttt{wordCounter} is easily calculated 
+
+% can be calculated already in the constructor, and used in all methods, but only calculated once. 

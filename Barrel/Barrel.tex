@@ -1,0 +1,34 @@
+\section*{2.3 Barrel}
+
+The Barrel program constructs a barrel, using one of two overloaded constructors. The barrel is created with either the requested (if legal) capacity, or a default capacity of 100 units. The legal range is [20, 150] units. If the requested capacity is out of range, the capacity is set to a default 150 units. \\
+\\
+\textbf{Methods}\\
+The constructed barrel has four methods that can be called by the user:
+\begin{enumerate}
+    \item \texttt{fillIn}: Adds requested amount of units to the barrel, as longs as the total content does not exceed the capacity. 
+    
+\begin{lstlisting}
+public boolean fillIn (double quantity)
+\end{lstlisting}
+    
+    
+    \item \texttt{remove}: Removes requested amount of units from barrel as long as the barrel already contains at least the requested amount of units to remove. 
+    
+\begin{lstlisting}
+public boolean remove(double quantity)
+\end{lstlisting}
+    
+    \item \texttt{drain}: Empties the barrel, i.e. sets the content to 0.
+
+\begin{lstlisting}
+public void drain()
+\end{lstlisting}
+    
+    \item \texttt{exchange}: Exchanges content between the current barrel and another specified barrel, as long as the each of the two barrel contents do not exceed each others capacities. 
+    
+\begin{lstlisting}
+public boolean exchange(Barrel barrel)
+\end{lstlisting}
+    
+    All methods (except \texttt{drain}) return a boolean stating if the method call was possible. Drain is always possible, so it is redundant to check its status. 
+\end{enumerate}
